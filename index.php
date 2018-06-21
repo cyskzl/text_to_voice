@@ -5,7 +5,6 @@ require_once 'AipSpeech.php';
 
 require_once 'config.php';
 
-
 if($_POST['txt']){
 
 $client = new AipSpeech(APP_ID, API_KEY, SECRET_KEY);
