@@ -1,0 +1,114 @@
+<!--pages/payment-result/payment-result.wxml-->
+<view class="container">
+  <!-- 加载状态 -->
+  <view class="loading" wx:if="{{loading}}">
+    <view class="spinner"></view>
+    <text class="loading-text">查询订单状态中...</text>
+  </view>
+
+  <!-- 支付结果 -->
+  <view class="result-container" wx:if="{{!loading}}">
+    
+    <!-- 支付成功 -->
+    <view class="result-content success" wx:if="{{status === 'success'}}">
+      <image class="result-icon" src="/images/success-big.png" mode="aspectFit"></image>
+      <text class="result-title">支付成功</text>
+      <text class="result-desc">您的订单已支付完成</text>
+      
+      <view class="order-summary">
+        <view class="summary-item">
+          <text class="summary-label">订单号</text>
+          <text class="summary-value">{{orderId}}</text>
+        </view>
+        <view class="summary-item">
+          <text class="summary-label">支付方式</text>
+          <text class="summary-value">{{paymentType === 'jdpay' ? '京东支付' : '微信支付'}}</text>
+        </view>
+        <view class="summary-item" wx:if="{{orderInfo && orderInfo.amount}}">
+          <text class="summary-label">支付金额</text>
+          <text class="summary-value amount">¥{{orderInfo.amount}}</text>
+        </view>
+        <view class="summary-item">
+          <text class="summary-label">支付时间</text>
+          <text class="summary-value">{{orderInfo.update_time || '刚刚'}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 支付失败 -->
+    <view class="result-content failed" wx:if="{{status === 'failed'}}">
+      <image class="result-icon" src="/images/failed-big.png" mode="aspectFit"></image>
+      <text class="result-title">支付失败</text>
+      <text class="result-desc">很抱歉，您的支付未能完成</text>
+      
+      <view class="failure-reasons">
+        <text class="reasons-title">可能的原因：</text>
+        <text class="reason-item">• 账户余额不足</text>
+        <text class="reason-item">• 网络连接异常</text>
+        <text class="reason-item">• 支付密码错误</text>
+        <text class="reason-item">• 银行卡状态异常</text>
+      </view>
+    </view>
+
+    <!-- 支付取消 -->
+    <view class="result-content cancelled" wx:if="{{status === 'cancelled'}}">
+      <image class="result-icon" src="/images/cancelled-big.png" mode="aspectFit"></image>
+      <text class="result-title">支付取消</text>
+      <text class="result-desc">您已取消此次支付</text>
+      
+      <view class="cancel-tips">
+        <text class="tips-text">如需继续购买，请重新下单</text>
+      </view>
+    </view>
+
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-buttons" wx:if="{{!loading}}">
+    
+    <!-- 支付成功按钮 -->
+    <block wx:if="{{status === 'success'}}">
+      <button class="action-btn primary" bindtap="continueShopping">
+        继续购物
+      </button>
+      <button class="action-btn secondary" bindtap="viewOrderDetail">
+        查看详情
+      </button>
+    </block>
+
+    <!-- 支付失败按钮 -->
+    <block wx:if="{{status === 'failed'}}">
+      <button class="action-btn primary" bindtap="retryPayment">
+        重新支付
+      </button>
+      <button class="action-btn secondary" bindtap="contactService">
+        联系客服
+      </button>
+    </block>
+
+    <!-- 支付取消按钮 -->
+    <block wx:if="{{status === 'cancelled'}}">
+      <button class="action-btn primary" bindtap="continueShopping">
+        继续购物
+      </button>
+      <button class="action-btn secondary" bindtap="goHome">
+        返回首页
+      </button>
+    </block>
+
+  </view>
+
+  <!-- 额外信息 -->
+  <view class="extra-info" wx:if="{{!loading}}">
+    <view class="info-item">
+      <image class="info-icon" src="/images/security-small.png" mode="aspectFit"></image>
+      <text class="info-text">支付信息已加密保护</text>
+    </view>
+    
+    <view class="info-item" wx:if="{{status === 'success'}}">
+      <image class="info-icon" src="/images/service.png" mode="aspectFit"></image>
+      <text class="info-text">如有问题请联系客服</text>
+    </view>
+  </view>
+
+</view>

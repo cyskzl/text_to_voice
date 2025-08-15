@@ -1,0 +1,54 @@
+<!--pages/payment-webview/payment-webview.wxml-->
+<view class="container">
+  <!-- 加载中状态 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading-spinner">
+      <view class="spinner"></view>
+      <text class="loading-text">正在加载支付页面...</text>
+    </view>
+  </view>
+
+  <!-- WebView -->
+  <web-view 
+    wx:if="{{payUrl && !showRetry}}"
+    src="{{payUrl}}"
+    bindload="onWebViewLoad"
+    binderror="onWebViewError"
+    bindmessage="onWebViewMessage"
+  ></web-view>
+
+  <!-- 加载失败重试 -->
+  <view class="retry-container" wx:if="{{showRetry}}">
+    <view class="retry-content">
+      <image class="retry-icon" src="/images/error.png" mode="aspectFit"></image>
+      <text class="retry-title">页面加载失败</text>
+      <text class="retry-desc">请检查网络连接后重试</text>
+      <button class="retry-button" bindtap="retryLoad">重新加载</button>
+    </view>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-actions" wx:if="{{!loading && !showRetry}}">
+    <button class="action-button secondary" bindtap="manualCheckStatus">
+      查询支付状态
+    </button>
+    <button class="action-button danger" bindtap="cancelPayment">
+      取消支付
+    </button>
+  </view>
+
+  <!-- 支付状态提示 -->
+  <view class="status-tip" wx:if="{{paymentStatus === 'success'}}">
+    <view class="status-content success">
+      <image class="status-icon" src="/images/success.png" mode="aspectFit"></image>
+      <text class="status-text">支付成功</text>
+    </view>
+  </view>
+
+  <view class="status-tip" wx:if="{{paymentStatus === 'failed'}}">
+    <view class="status-content failed">
+      <image class="status-icon" src="/images/failed.png" mode="aspectFit"></image>
+      <text class="status-text">支付失败</text>
+    </view>
+  </view>
+</view>
