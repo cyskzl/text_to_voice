@@ -1,0 +1,28 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <view class="header">
+    <text class="title">京东支付Demo</text>
+    <text class="subtitle">微信小程序支持京东协议支付</text>
+  </view>
+
+  <view class="product-list">
+    <view class="product-item" wx:for="{{products}}" wx:key="id">
+      <image class="product-image" src="{{item.image}}" mode="aspectFill"></image>
+      <view class="product-info">
+        <text class="product-name">{{item.name}}</text>
+        <text class="product-price">¥{{item.price}}</text>
+        <button class="buy-btn" bindtap="buyProduct" data-id="{{item.id}}">
+          立即购买
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <view class="tips">
+    <text class="tips-title">支付说明：</text>
+    <text class="tips-content">1. 点击"立即购买"进入支付页面</text>
+    <text class="tips-content">2. 选择京东支付方式</text>
+    <text class="tips-content">3. 通过WebView完成京东支付流程</text>
+    <text class="tips-content">4. 支付完成后自动返回小程序</text>
+  </view>
+</view>
