@@ -1,0 +1,17 @@
+<view class="container">
+  <view class="header">
+    <text class="title">商品列表</text>
+  </view>
+  
+  <view class="product-list">
+    <view class="product-item" wx:for="{{products}}" wx:key="id" bindtap="selectProduct" data-product="{{item}}">
+      <image class="product-image" src="{{item.image}}" mode="aspectFill"></image>
+      <view class="product-info">
+        <text class="product-name">{{item.name}}</text>
+        <text class="product-desc">{{item.description}}</text>
+        <text class="product-price">¥{{item.price}}</text>
+      </view>
+      <button class="buy-btn" catchtap="buyNow" data-product="{{item}}">立即购买</button>
+    </view>
+  </view>
+</view>
